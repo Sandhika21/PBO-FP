@@ -1,0 +1,29 @@
+C:\Users\Admin\Source\Repos\tetris-brick-game\Tetris\Tetris\bin\Debug\Tetris.exe.config
+C:\Users\Admin\Source\Repos\tetris-brick-game\Tetris\Tetris\bin\Debug\Tetris.exe
+C:\Users\Admin\Source\Repos\tetris-brick-game\Tetris\Tetris\bin\Debug\Tetris.pdb
+C:\Users\Admin\Source\Repos\tetris-brick-game\Tetris\Tetris\obj\Debug\Tetris.csproj.AssemblyReference.cache
+C:\Users\Admin\Source\Repos\tetris-brick-game\Tetris\Tetris\obj\Debug\Tetris.Properties.Resources.resources
+C:\Users\Admin\Source\Repos\tetris-brick-game\Tetris\Tetris\obj\Debug\Tetris.csproj.GenerateResource.cache
+C:\Users\Admin\Source\Repos\tetris-brick-game\Tetris\Tetris\obj\Debug\Tetris.csproj.CoreCompileInputs.cache
+C:\Users\Admin\Source\Repos\tetris-brick-game\Tetris\Tetris\obj\Debug\Tetris.exe
+C:\Users\Admin\Source\Repos\tetris-brick-game\Tetris\Tetris\obj\Debug\Tetris.pdb
+C:\Users\Admin\source\repos\tetris-brick-game\Tetris\Tetris\obj\Debug\Tetris.TetrisGame.resources
+B:\SEM 7\TA\Tetris\Tetris\obj\Debug\Tetris.csproj.AssemblyReference.cache
+B:\SEM 7\TA\Tetris\Tetris\obj\Debug\Tetris.Properties.Resources.resources
+B:\SEM 7\TA\Tetris\Tetris\obj\Debug\Tetris.csproj.GenerateResource.cache
+B:\SEM 7\TA\Tetris\Tetris\obj\Debug\Tetris.csproj.CoreCompileInputs.cache
+B:\SEM 7\TA\Tetris\Tetris\bin\Debug\Tetris.exe.config
+B:\SEM 7\TA\Tetris\Tetris\bin\Debug\Tetris.exe
+B:\SEM 7\TA\Tetris\Tetris\bin\Debug\Tetris.pdb
+B:\SEM 7\TA\Tetris\Tetris\obj\Debug\Tetris.ShoppingPanel.resources
+B:\SEM 7\TA\Tetris\Tetris\obj\Debug\Tetris.exe
+B:\SEM 7\TA\Tetris\Tetris\obj\Debug\Tetris.pdb
+E:\S7\PBO\Tetris_r\Tetris\obj\Debug\Tetris.csproj.AssemblyReference.cache
+E:\S7\PBO\Tetris_r\Tetris\obj\Debug\Tetris.ShoppingPanel.resources
+E:\S7\PBO\Tetris_r\Tetris\obj\Debug\Tetris.csproj.GenerateResource.cache
+E:\S7\PBO\Tetris_r\Tetris\obj\Debug\Tetris.csproj.CoreCompileInputs.cache
+E:\S7\PBO\Tetris_r\Tetris\bin\Debug\Tetris.exe.config
+E:\S7\PBO\Tetris_r\Tetris\bin\Debug\Tetris.exe
+E:\S7\PBO\Tetris_r\Tetris\bin\Debug\Tetris.pdb
+E:\S7\PBO\Tetris_r\Tetris\obj\Debug\Tetris.exe
+E:\S7\PBO\Tetris_r\Tetris\obj\Debug\Tetris.pdb
