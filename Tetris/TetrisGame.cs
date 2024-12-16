@@ -66,9 +66,9 @@ namespace Tetris
             };
             this.Controls.Add(separator);
 
-            Item extraLife = new Item(2, 3, "Extra Life", new Point(50, 100), new Size(250, 40));
-            Item speedBoost = new Item(130, 100, "Speed Boost", new Point(50, 160), new Size(250, 40));
-            Item bomb = new Item(20, 30, "Bomb", new Point(50, 220), new Size(250, 40));
+            Item extraLife = new Item(40, 40, "Extra Life", new Point(50, 100), new Size(250, 40));
+            Item speedBoost = new Item(20, 30, "Speed Boost", new Point(50, 160), new Size(250, 40));
+            Item bomb = new Item(50, 60, "Bomb", new Point(50, 220), new Size(250, 40));
 
             extraLife.button.Click += (s, e) =>
             {
@@ -341,6 +341,9 @@ namespace Tetris
                 }
                 else
                 {
+                    Array.Clear(canvasDotArray, 0, canvasDotArray.Length);
+                    canvasGraphics.FillRectangle(Brushes.LightGray, 0, 0, canvasWidth * dotSize, canvasHeight * dotSize);
+                    /*
                     for (int i = 0; i < canvasWidth; i++)
                     {
                         for (int j = 0; j < canvasHeight / 2; j++)
@@ -348,7 +351,7 @@ namespace Tetris
                             canvasDotArray[i, j] = 0;
                         }
                     }
-                    canvasGraphics.FillRectangle(Brushes.LightGray, 0, 0, canvasBitmap.Width, canvasBitmap.Height / 2);
+                    canvasGraphics.FillRectangle(Brushes.LightGray, 0, 0, canvasBitmap.Width, canvasBitmap.Height / 2);*/
                     pictureBox1.Image = canvasBitmap;
                     _life--;
                     LShow.Text = "Life: " + _life;
