@@ -9,7 +9,6 @@ namespace Tetris
     public partial class Menu : Form
     {
         private System.Windows.Forms.Label BScoreLabel, CScoreLabel;
-        //private int FinScore;
         private Button startGameButton;
         private Button exitButton;
         private int bScore, cScore;
@@ -49,16 +48,18 @@ namespace Tetris
                 Text = "Balance Score: " + bScore,
                 Location = new Point(10, 10),
                 Font = new Font("Arial", 10),
-                ForeColor = Color.Black
+                ForeColor = Color.Black,
+                AutoSize = true
             };
             this.Controls.Add(BScoreLabel);
 
             CScoreLabel = new System.Windows.Forms.Label
             {
                 Text = "Credit Score: " + cScore,
-                Location = new Point(10, 20),
+                Location = new Point(10, 40),
                 Font = new Font("Arial", 10),
-                ForeColor = Color.Black
+                ForeColor = Color.Black,
+                AutoSize = true
             };
             this.Controls.Add(CScoreLabel);
 
@@ -111,8 +112,10 @@ namespace Tetris
             TetrisGame gameForm = sender as TetrisGame;
             if (gameForm != null)
             {
-                BScoreLabel.Text = "Balance Score: " + Score.balanceScore.Score;
-                CScoreLabel.Text = "Credit Score: " + Score.creditScore.Score;
+                bScore += Score.balanceScore.Score;
+                cScore += Score.creditScore.Score;
+                BScoreLabel.Text = "Balance Score: " + bScore;
+                CScoreLabel.Text = "Credit Score: " + cScore;
             }
             this.Show();
         }

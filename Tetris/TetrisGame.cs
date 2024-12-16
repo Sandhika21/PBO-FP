@@ -116,6 +116,8 @@ namespace Tetris
                 BalanceScoreLabel.Text = $"Balance Score: {BScore}";
                 CreditScoreLabel.Text = $"Credit Score: {CScore}";
 
+                item.ApplyBuff();
+
                 // Notify the player of successful purchase
                 MessageBox.Show($"{item.Name} purchased successfully!", "Purchase Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
