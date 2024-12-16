@@ -6,20 +6,46 @@ using Tetris;
 
 namespace Tetris
 {
-    public partial class Menu : Form
+    public partial class Menus : Form
     {
         private System.Windows.Forms.Label BScoreLabel, CScoreLabel;
+        private System.Windows.Forms.Label amountBombLabel, LifeLabel;
         private Button startGameButton;
         private Button exitButton;
-        private int bScore, cScore;
+        private static int _bScore, _cScore;
+        private static int _bomb, _extraLife;
         private Button shoppingButton;
         Nilai CurrNilai = new Nilai();
 
-        public Menu()//
+        public Menus()//
         {
             InitializeForm();//
             InitializeControls();//
 
+        }
+
+        public static int BScore
+        {
+            get { return _bScore; }
+            set { _bScore = value; }
+        }
+
+        public static int CScore 
+        { 
+            get { return _cScore; } 
+            set { _cScore = value; }
+        }
+
+        public static int Bomb
+        {
+            get { return _bomb; }
+            set { _bomb = value; }
+        }
+
+        public static int ExtraLife
+        {
+            get { return _extraLife; }
+            set { _extraLife = value; }
         }
 
         private void InitializeForm()//
@@ -27,8 +53,9 @@ namespace Tetris
             this.Text = "Main Menu";//
             this.Size = new Size(400, 300);//
             this.StartPosition = FormStartPosition.CenterScreen;//
-            bScore = 0;
-            cScore = 0;
+            _bScore = 0;
+            _cScore = 0;
+            _bomb = 0;
         }
         private void InitializeControls()
         {
@@ -45,7 +72,7 @@ namespace Tetris
             // Label Skor
             BScoreLabel = new System.Windows.Forms.Label
             {
-                Text = "Balance Score: " + bScore,
+                Text = "Balance Score: " + _bScore,
                 Location = new Point(10, 10),
                 Font = new Font("Arial", 10),
                 ForeColor = Color.Black,
@@ -55,13 +82,31 @@ namespace Tetris
 
             CScoreLabel = new System.Windows.Forms.Label
             {
-                Text = "Credit Score: " + cScore,
+                Text = "Credit Score: " + _cScore,
                 Location = new Point(10, 40),
                 Font = new Font("Arial", 10),
                 ForeColor = Color.Black,
                 AutoSize = true
             };
             this.Controls.Add(CScoreLabel);
+
+            amountBombLabel = new System.Windows.Forms.Label
+            {
+                Text = $"Bomb: {_bomb}",
+                Location = new Point(280, 20),
+                Font = new Font("Arial", 12, FontStyle.Bold),
+                AutoSize = true
+            };
+            this.Controls.Add(amountBombLabel);
+
+            LifeLabel = new System.Windows.Forms.Label
+            {
+                Text = "Life: " + _extraLife,
+                Location = new Point(10, 70),
+                Font = new Font("Arial", 10),
+                ForeColor = Color.Blue
+            };
+            this.Controls.Add(LifeLabel);
 
             // Tombol Shopping
             shoppingButton = new Button
@@ -85,15 +130,15 @@ namespace Tetris
         }
         private void ShoppingButton_Click(object sender, EventArgs e)
         {
-            using (ShoppingPanel shoppingPanel = new ShoppingPanel(bScore, cScore))
+            using (ShoppingPanel shoppingPanel = new ShoppingPanel())
             {
                 shoppingPanel.ShowDialog();
-                bScore = shoppingPanel.getBScore();
-                cScore = shoppingPanel.getCScore();
 
                 // Update the final score after shopping
-                BScoreLabel.Text = "Balance Score: " + bScore;
-                CScoreLabel.Text = "Credit Score: " + cScore;
+                BScoreLabel.Text = "Balance Score: " + _bScore;
+                CScoreLabel.Text = "Credit Score: " + _cScore;
+                amountBombLabel.Text = "Bomb: " + _bomb;
+                LifeLabel.Text = "Life: " + _extraLife;
             }
         }
         private void StartGameButton_Click(object sender, EventArgs e)
@@ -112,10 +157,12 @@ namespace Tetris
             TetrisGame gameForm = sender as TetrisGame;
             if (gameForm != null)
             {
-                bScore += Score.balanceScore.Score;
-                cScore += Score.creditScore.Score;
-                BScoreLabel.Text = "Balance Score: " + bScore;
-                CScoreLabel.Text = "Credit Score: " + cScore;
+                _bScore += Score.balanceScore.Score;
+                _cScore += Score.creditScore.Score;
+                BScoreLabel.Text = "Balance Score: " + _bScore;
+                CScoreLabel.Text = "Credit Score: " + _cScore;
+                amountBombLabel.Text = "Bomb: " + _bomb;
+                LifeLabel.Text = "Life: " + _extraLife;
             }
             this.Show();
         }

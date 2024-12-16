@@ -17,14 +17,9 @@ namespace Tetris
         // Button to close the shopping panel
         private Button closeButton;
 
-        // Internal variable to track the player's score
-        private int BScore, CScore;
-
         // Constructor that accepts the player's current score
-        public ShoppingPanel(int bScore, int cScore)
+        public ShoppingPanel()
         {
-            BScore = bScore;
-            CScore = cScore;
             InitializeForm();
             InitializeControls();
         }
@@ -45,7 +40,7 @@ namespace Tetris
             // Label for Current Score
             BalanceScoreLabel = new Label
             {
-                Text = $"Balance Score: {BScore}",
+                Text = $"Balance Score: {Menus.BScore}",
                 Location = new Point(20, 20),
                 Font = new Font("Arial", 12, FontStyle.Bold),
                 AutoSize = true
@@ -55,7 +50,7 @@ namespace Tetris
             // Label for Remaining Score after purchases
             CreditScoreLabel = new Label
             {
-                Text = $"Credit Score: {CScore}",
+                Text = $"Credit Score: {Menus.CScore}",
                 Location = new Point(20, 50),
                 Font = new Font("Arial", 12, FontStyle.Bold),
                 AutoSize = true
@@ -71,15 +66,19 @@ namespace Tetris
             };
             this.Controls.Add(separator);
 
-            Item extraLife = new ExtraLife();
-            Item speedBoost = new SpeedBoost();
-            Item bomb = new Bomb();
+            Item extraLife = new Item(2, 3, "Extra Life", new Point(50, 100), new Size(250, 40));
+            Item speedBoost = new Item(130, 100, "Speed Boost", new Point(50, 160), new Size(250, 40));
+            Item bomb = new Item(20, 30, "Bomb", new Point(50, 220), new Size(250, 40));
 
             extraLife.button.Click += (s, e) =>
             {
-                AttemptPurchase(extraLife);
+                if (AttemptPurchase(extraLife))
+                {
+                    Menus.ExtraLife++;
+                }
             };
             this.Controls.Add(extraLife.button);
+
 
             speedBoost.button.Click += (s, e) =>
             {
@@ -89,7 +88,10 @@ namespace Tetris
 
             bomb.button.Click += (s, e) =>
             {
-                AttemptPurchase(bomb);
+                if (AttemptPurchase(bomb))
+                {
+                    Menus.Bomb++;
+                }
             };
             this.Controls.Add(bomb.button);
 
@@ -108,15 +110,13 @@ namespace Tetris
         // Common method to handle purchases
         private bool AttemptPurchase(Item item)
         {
-            if (BScore >= item.BPrice && CScore >= item.CPrice)
+            if (Menus.BScore >= item.BPrice && Menus.CScore >= item.CPrice)
             {
                 // Deduct the price from current score
-                BScore -= item.BPrice;
-                CScore -= item.CPrice;
-                BalanceScoreLabel.Text = $"Balance Score: {BScore}";
-                CreditScoreLabel.Text = $"Credit Score: {CScore}";
-
-                item.ApplyBuff();
+                Menus.BScore -= item.BPrice;
+                Menus.CScore -= item.CPrice;
+                BalanceScoreLabel.Text = $"Balance Score: {Menus.BScore}";
+                CreditScoreLabel.Text = $"Credit Score: {Menus.CScore}";
 
                 // Notify the player of successful purchase
                 MessageBox.Show($"{item.Name} purchased successfully!", "Purchase Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -129,16 +129,6 @@ namespace Tetris
                 MessageBox.Show($"Insufficient score to purchase {item.Name}.", "Purchase Failed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
-        }
-
-        public int getBScore()
-        {
-            return BScore;
-        }
-
-        public int getCScore()
-        {
-            return CScore;
         }
 
         // Event handler for closing the shopping panel
@@ -156,6 +146,9 @@ namespace Tetris
 
     public partial class TetrisGame : Form
     {
+        private Button bombButton;
+        private Label BombShow, LifeShow, LShow;
+        private int _life;
         Block currentShape;
         Block nextShape;
         Timer timer = new Timer();
@@ -163,6 +156,37 @@ namespace Tetris
         public TetrisGame()
         {
             InitializeComponent();
+
+            BombShow = new Label
+            {
+                Text = $"         Bomb: " + Menus.Bomb + "\nPress E to Activate",
+                Location = new Point(335, 360),
+                Font = new Font("Arial", 11, FontStyle.Bold),
+                AutoSize = true
+            };
+            this.Controls.Add(BombShow);
+
+            LifeShow = new Label
+            {
+                Text = $"         Extra Life: " + Menus.ExtraLife + "\nPress D to Activate",
+                Location = new Point(378, 280),
+                Font = new Font("Arial", 11, FontStyle.Bold),
+                ForeColor = Color.Red,
+                AutoSize = true
+            };
+            this.Controls.Add(LifeShow);
+
+            _life = 0;
+
+            LShow = new Label
+            {
+                Text = "Life: " + _life,
+                Location = new Point(378, 330),
+                Font = new Font("Arial", 11, FontStyle.Bold),
+                ForeColor = Color.Red,
+                AutoSize = true
+            };
+            this.Controls.Add(LShow);
 
             loadCanvas();
             Score.Reset();
@@ -175,6 +199,46 @@ namespace Tetris
             timer.Start();
 
             this.KeyDown += Tetris_KeyDown;
+
+            /*
+            bombButton = new Button
+            {
+                Text = "Bomb" + Menus.Bomb,
+                Location = new Point(150, 100),
+                Size = new Size(100, 130)
+            };
+            bombButton.Click += (s, e) =>
+            {
+                this.Focus();
+                BombEffect(s, e);
+            };
+            this.Controls.Add(bombButton);
+
+            this.KeyPreview = true;
+            */
+        }
+
+        private void BombEffect(object sender, EventArgs e)
+        {
+            Array.Clear(canvasDotArray, 0, canvasDotArray.Length);
+
+            canvasGraphics.Clear(Color.LightGray);
+            for (int i = 0; i < canvasWidth; i++)
+            {
+                for (int j = 0; j < canvasHeight; j++)
+                {
+                    canvasGraphics.FillRectangle(
+                        canvasDotArray[i, j] == 1 ? Brushes.Black : Brushes.LightGray,
+                        i * dotSize, j * dotSize, dotSize, dotSize
+                    );
+                }
+            }
+
+            pictureBox1.Image = canvasBitmap;
+            Menus.Bomb--;
+            Score.balanceScore.Score += 5;
+            label1.Text = "Balance: " + Score.balanceScore.Score;
+            label2.Text = "Credit: " + Score.creditScore.Score;
         }
 
         Bitmap canvasBitmap;
@@ -255,14 +319,8 @@ namespace Tetris
                             targetY >= 0 && targetY < canvasDotArray.GetLength(1))
                         {
                             canvasDotArray[targetX, targetY] = currentShape.BlockShape.Dots[j, i];
-                            checkIfGameOver();
                         }
-                        else
-                        {
-                            // Handle the situation when the index is out of bounds (optional)
-                            // For example, you might want to treat it as game over if going out of the array bounds
-                            checkIfGameOver();
-                        }
+                        checkIfGameOver();
 
                         // (Previous ver of Code) 
                         //DON'T  Remove => Just in case there is an ERROR
@@ -275,14 +333,33 @@ namespace Tetris
 
         private void checkIfGameOver()
         {
-            if (currentY < 0)
+            if (currentY < 0) 
             {
-                //Nilai nilai = new Nilai();
-                //nilai.Simpan = score;
-                timer.Stop();
-                //MessageBox.Show("Game Over"); => Need to be closed 3 times???
-                Close();
+                if (_life == 0)
+                {
+                    gameOver();
+                }
+                else
+                {
+                    for (int i = 0; i < canvasWidth; i++)
+                    {
+                        for (int j = 0; j < canvasHeight / 2; j++)
+                        {
+                            canvasDotArray[i, j] = 0;
+                        }
+                    }
+                    canvasGraphics.FillRectangle(Brushes.LightGray, 0, 0, canvasBitmap.Width, canvasBitmap.Height / 2);
+                    pictureBox1.Image = canvasBitmap;
+                    _life--;
+                    LShow.Text = "Life: " + _life;
+                }
             }
+        }
+
+        private void gameOver()
+        {
+            timer.Stop();
+            this.Close();
         }
 
         // returns if it reaches the bottom or touches any other blocks
@@ -340,6 +417,29 @@ namespace Tetris
             // based on the key pressed
             switch (e.KeyCode)
             {
+                case Keys.E:
+                    if(Menus.Bomb > 0)
+                    {
+                        Array.Clear(canvasDotArray, 0, canvasDotArray.Length);
+                        canvasGraphics.FillRectangle(Brushes.LightGray, 0, 0, canvasWidth * dotSize, canvasHeight * dotSize);
+
+                        pictureBox1.Image = canvasBitmap;
+                        Menus.Bomb--;
+                        Score.balanceScore.Score += 5;
+
+                        BombShow.Text = $"         Bomb: " + Menus.Bomb + "\nPress E to Activate";
+                        label1.Text = "Balance Score: " + Score.balanceScore.Score;                        
+                    }
+                    break;
+                case Keys.D:
+                    if(Menus.ExtraLife > 0)
+                    {
+                        Menus.ExtraLife--;
+                        _life++;
+                        LifeShow.Text = $"         Extra Life: " + Menus.ExtraLife + "\nPress D to Activate";
+                        LShow.Text = "Life: " + _life;
+                    }
+                    break;
                 // move shape left
                 case Keys.Left:
                     verticalMove--;

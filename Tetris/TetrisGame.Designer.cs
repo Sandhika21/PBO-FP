@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 
 namespace Tetris
 {
@@ -85,6 +86,8 @@ namespace Tetris
             this.pictureBox1.Size = new System.Drawing.Size(452, 620);
             this.pictureBox1.TabIndex = 4;
             this.pictureBox1.TabStop = false;
+
+
             // 
             // Form1
             // 
@@ -108,6 +111,7 @@ namespace Tetris
         #endregion
 
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button button1;
 
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Label label2;

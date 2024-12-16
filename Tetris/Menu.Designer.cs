@@ -1,6 +1,6 @@
 ﻿namespace Tetris
 {
-    partial class Menu
+    partial class Menus
     {
         /// <summary>
         /// Required designer variable.
