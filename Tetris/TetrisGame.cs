@@ -402,6 +402,8 @@ namespace Tetris
                     }
                     label1.Text = "Balance Score: " + Score.balanceScore.Score;
                     label2.Text = "Credit Score: " + Score.creditScore.Score;
+                    Score.bonusPotential.UpdateScore(Score.balanceScore, Score.creditScore);
+                    label3.Text = "Bonus Potential: " + Score.bonusPotential.Score;
 
                     Score.balanceScore.ApplyBuff(Score.creditScore);
                     Score.creditScore.ApplyBuff(Score.balanceScore);

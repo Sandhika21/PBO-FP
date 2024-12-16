@@ -1,4 +1,6 @@
-﻿namespace Tetris
+﻿using System.Windows.Forms;
+
+namespace Tetris
 {
     partial class TetrisGame
     {
@@ -6,6 +8,7 @@
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
+        
 
         /// <summary>
         /// Clean up any resources being used.
@@ -41,17 +44,17 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(496, 188);
+            this.label3.Location = new System.Drawing.Point(496, 180);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(86, 37);
             this.label3.TabIndex = 8;
-            this.label3.Text = "Next";
+            this.label3.Text = "Bonus Potential: 0";
             // 
             // pictureBox2
             // 
             this.pictureBox2.Location = new System.Drawing.Point(503, 228);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(198, 180);
+            this.pictureBox2.Size = new System.Drawing.Size(198, 210);
             this.pictureBox2.TabIndex = 7;
             this.pictureBox2.TabStop = false;
             // 
@@ -105,6 +108,7 @@
         #endregion
 
         private System.Windows.Forms.Label label3;
+
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;

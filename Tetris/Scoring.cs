@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Schema;
@@ -74,15 +75,27 @@ namespace Tetris
         }
     }
 
+    public class BonusPotential : Scoring
+    {
+        public BonusPotential() : base() { }
+
+        public void UpdateScore(BalanceScore bs, CreditScore cs)
+        {
+            _score += cs.Score - bs.Score;
+        }
+    }
+
     public class Score
     {
         public static BalanceScore balanceScore;
         public static CreditScore creditScore;
+        public static BonusPotential bonusPotential;
 
         public static void Reset()
         {
             balanceScore = new BalanceScore();
             creditScore = new CreditScore();
+            bonusPotential = new BonusPotential();
         }
     }
 }
