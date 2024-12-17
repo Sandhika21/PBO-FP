@@ -82,7 +82,10 @@ namespace Tetris
 
             speedBoost.button.Click += (s, e) =>
             {
-                AttemptPurchase(speedBoost);
+                if (AttemptPurchase(speedBoost))
+                {
+                    Menus.Speed++;
+                }
             };
             this.Controls.Add(speedBoost.button);
 
@@ -147,8 +150,8 @@ namespace Tetris
     public partial class TetrisGame : Form
     {
         private Button bombButton;
-        private Label BombShow, LifeShow, LShow;
-        private int _life;
+        private Label BombShow, LifeShow, LShow, SShow;
+        private int _life, _interval;
         Block currentShape;
         Block nextShape;
         Timer timer = new Timer();
@@ -162,6 +165,7 @@ namespace Tetris
                 Text = $"         Bomb: " + Menus.Bomb + "\nPress E to Activate",
                 Location = new Point(335, 360),
                 Font = new Font("Arial", 11, FontStyle.Bold),
+                ForeColor = Color.Red,
                 AutoSize = true
             };
             this.Controls.Add(BombShow);
@@ -169,7 +173,7 @@ namespace Tetris
             LifeShow = new Label
             {
                 Text = $"         Extra Life: " + Menus.ExtraLife + "\nPress D to Activate",
-                Location = new Point(378, 280),
+                Location = new Point(335, 280),
                 Font = new Font("Arial", 11, FontStyle.Bold),
                 ForeColor = Color.Red,
                 AutoSize = true
@@ -181,12 +185,23 @@ namespace Tetris
             LShow = new Label
             {
                 Text = "Life: " + _life,
-                Location = new Point(378, 330),
+                Location = new Point(335, 330),
                 Font = new Font("Arial", 11, FontStyle.Bold),
                 ForeColor = Color.Red,
                 AutoSize = true
             };
             this.Controls.Add(LShow);
+
+            SShow = new Label
+            {
+                Text = $"         Speed Boost: " + Menus.Speed + "\nPress S to Activate",
+                Location = new Point(335, 400),
+                Font = new Font("Arial", 11, FontStyle.Bold),
+                ForeColor = Color.Red,
+                AutoSize = true
+            };
+            this.Controls.Add(SShow);
+            _interval = 5;
 
             loadCanvas();
             Score.Reset();
@@ -216,29 +231,6 @@ namespace Tetris
 
             this.KeyPreview = true;
             */
-        }
-
-        private void BombEffect(object sender, EventArgs e)
-        {
-            Array.Clear(canvasDotArray, 0, canvasDotArray.Length);
-
-            canvasGraphics.Clear(Color.LightGray);
-            for (int i = 0; i < canvasWidth; i++)
-            {
-                for (int j = 0; j < canvasHeight; j++)
-                {
-                    canvasGraphics.FillRectangle(
-                        canvasDotArray[i, j] == 1 ? Brushes.Black : Brushes.LightGray,
-                        i * dotSize, j * dotSize, dotSize, dotSize
-                    );
-                }
-            }
-
-            pictureBox1.Image = canvasBitmap;
-            Menus.Bomb--;
-            Score.balanceScore.Score += 5;
-            label1.Text = "Balance: " + Score.balanceScore.Score;
-            label2.Text = "Credit: " + Score.creditScore.Score;
         }
 
         Bitmap canvasBitmap;
@@ -340,10 +332,7 @@ namespace Tetris
                     gameOver();
                 }
                 else
-                {
-                    Array.Clear(canvasDotArray, 0, canvasDotArray.Length);
-                    canvasGraphics.FillRectangle(Brushes.LightGray, 0, 0, canvasWidth * dotSize, canvasHeight * dotSize);
-                    /*
+                {                    
                     for (int i = 0; i < canvasWidth; i++)
                     {
                         for (int j = 0; j < canvasHeight / 2; j++)
@@ -351,7 +340,7 @@ namespace Tetris
                             canvasDotArray[i, j] = 0;
                         }
                     }
-                    canvasGraphics.FillRectangle(Brushes.LightGray, 0, 0, canvasBitmap.Width, canvasBitmap.Height / 2);*/
+                    canvasGraphics.FillRectangle(Brushes.LightGray, 0, 0, canvasBitmap.Width, canvasBitmap.Height / 2);
                     pictureBox1.Image = canvasBitmap;
                     _life--;
                     LShow.Text = "Life: " + _life;
@@ -443,6 +432,14 @@ namespace Tetris
                         LShow.Text = "Life: " + _life;
                     }
                     break;
+                case Keys.S:
+                    if(Menus.Speed > 0)
+                    {
+                        _interval += 10;
+                        Menus.Speed--;
+                        SShow.Text = $"         Speed Boost: " + Menus.Speed + "\nPress S to Activate";
+                    }
+                    break;
                 // move shape left
                 case Keys.Left:
                     verticalMove--;
@@ -490,7 +487,7 @@ namespace Tetris
                 if (j == -1)
                 {
                     // increase the speed 
-                    timer.Interval -= 10;
+                    timer.Interval -= _interval;
 
                     // update the dot array based on the check
                     for (j = 0; j < canvasWidth; j++)

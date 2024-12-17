@@ -9,11 +9,11 @@ namespace Tetris
     public partial class Menus : Form
     {
         private System.Windows.Forms.Label BScoreLabel, CScoreLabel;
-        private System.Windows.Forms.Label amountBombLabel, LifeLabel;
+        private System.Windows.Forms.Label amountBombLabel, LifeLabel, SpeedLabel;
         private Button startGameButton;
         private Button exitButton;
         private static int _bScore, _cScore;
-        private static int _bomb, _extraLife;
+        private static int _bomb, _extraLife, _speed;
         private Button shoppingButton;
         Nilai CurrNilai = new Nilai();
 
@@ -48,6 +48,12 @@ namespace Tetris
             set { _extraLife = value; }
         }
 
+        public static int Speed
+        {
+            get { return _speed; }
+            set { _speed = value; }
+        }
+
         private void InitializeForm()//
         {            
             this.Text = "Main Menu";//
@@ -55,7 +61,9 @@ namespace Tetris
             this.StartPosition = FormStartPosition.CenterScreen;//
             _bScore = 0;
             _cScore = 0;
+            _extraLife = 0;
             _bomb = 0;
+            _speed = 0;
         }
         private void InitializeControls()
         {
@@ -93,9 +101,9 @@ namespace Tetris
             amountBombLabel = new System.Windows.Forms.Label
             {
                 Text = $"Bomb: {_bomb}",
-                Location = new Point(280, 20),
-                Font = new Font("Arial", 12, FontStyle.Bold),
-                AutoSize = true
+                Location = new Point(10, 90),
+                Font = new Font("Arial", 10),
+                ForeColor = Color.Blue
             };
             this.Controls.Add(amountBombLabel);
 
@@ -107,6 +115,15 @@ namespace Tetris
                 ForeColor = Color.Blue
             };
             this.Controls.Add(LifeLabel);
+
+            SpeedLabel = new System.Windows.Forms.Label
+            {
+                Text = "Speed: " + _speed,
+                Location = new Point(10, 110),
+                Font = new Font("Arial", 10),
+                ForeColor = Color.Blue
+            };
+            this.Controls.Add(SpeedLabel);
 
             // Tombol Shopping
             shoppingButton = new Button
@@ -139,6 +156,7 @@ namespace Tetris
                 CScoreLabel.Text = "Credit Score: " + _cScore;
                 amountBombLabel.Text = "Bomb: " + _bomb;
                 LifeLabel.Text = "Life: " + _extraLife;
+                SpeedLabel.Text = "Speed: " + _speed;
             }
         }
         private void StartGameButton_Click(object sender, EventArgs e)
@@ -163,6 +181,7 @@ namespace Tetris
                 CScoreLabel.Text = "Credit Score: " + _cScore;
                 amountBombLabel.Text = "Bomb: " + _bomb;
                 LifeLabel.Text = "Life: " + _extraLife;
+                SpeedLabel.Text = "Speed: " + _speed;
             }
             this.Show();
         }
